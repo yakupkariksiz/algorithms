@@ -3,7 +3,6 @@ package stacksqueues;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Scanner;
-import java.util.Stack;
 
 class TaleOfTwoStacks {
 
@@ -24,7 +23,6 @@ class TaleOfTwoStacks {
             }
         }
         scan.close();
-
     }
 }
 
@@ -35,26 +33,24 @@ class MyQueue<T> {
     T data;
 
     void enqueue(T value) {
-        while (front.peek() != null) {
-            T popped = front.pop();
-            back.push(popped);
-        }
         back.push(value);
     }
 
     void dequeue() {
-        while (back.peek() != null) {
-            T popped = back.pop();
-            front.push(popped);
-        }
+        shiftStacks();
         front.pop();
     }
 
     T peek() {
-        while (back.peek() != null) {
-            T popped = back.pop();
-            front.push(popped);
-        }
+        shiftStacks();
         return front.peek();
+    }
+
+    private void shiftStacks() {
+        if (front.isEmpty()) {
+            while (!back.isEmpty()) {
+                front.push(back.pop());
+            }
+        }
     }
 }
